@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+.violet-gradient {
+  background: linear-gradient(135deg, #8a2be2 0%, #9932cc 100%);
+}
+.input-focus:focus {
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.3);
+  border-color: #8a2be2;
+}
+.btn-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.25);
+}
+.transition-all {
+  transition: all 0.3s ease;
+}
