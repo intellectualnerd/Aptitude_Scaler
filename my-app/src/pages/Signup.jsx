@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import "./signup.css";
 
@@ -59,17 +59,97 @@ const SignUp = () => {
     e.preventDefault();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: {
+        redirectTo: "http://localhost:5173/signup",
+      },
     });
     if (error) setError(error.message);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("User details:", formData);
-    alert("Account Created!");
-    // You can also insert user data into a Supabase table here
+  const validateForm = () => {
+    const { name, college, city, state, country, agreed } = formData;
+    if (!name || !college || !city || !state || !country) {
+      setError("Please fill in all required fields marked with *.");
+      return false;
+    }
+    if (!agreed) {
+      setError("You must agree to the Terms & Conditions.");
+      return false;
+    }
+    setError("");
+    return true;
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+  
+    setLoading(true);
+    setError(null);
+  
+    const {
+      name,
+      college,
+      city,
+      state,
+      country,
+      twitter,
+      instagram,
+      linkedin,
+    } = formData;
+  
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+  
+    if (userError || !user) {
+      setError("User not found. Please sign in again.");
+      setLoading(false);
+      return;
+    }
+  
+    const { error: insertError } = await supabase.from("profiles").insert([
+      {
+        id: user.id,
+        name,
+        college,
+        city,
+        state,
+        country,
+        twitter,
+        instagram,
+        linkedin,
+      },
+    ]);
+  
+    setLoading(false);
+  
+    if (insertError) {
+      setError(insertError.message);
+    } else {
+      alert("Profile created successfully!");
+      // You can redirect or reset the form here
+      
+    window.location.href = "http://localhost:5173/";
+    }
+  };
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === "SIGNED_IN") {
+          // ✅ Run your function here after Google sign-in
+          setStep(2);
+          console.log("User signed in", session.user);
+          // Example: fetch user profile, redirect, show message, etc.
+        }
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
   return (
     <div className="signup-container">
       <div className="signup-box">
@@ -102,6 +182,14 @@ const SignUp = () => {
           <form onSubmit={step === 2 ? handleSubmit : undefined}>
             {step === 1 && (
               <>
+                <button className="google-btn" onClick={handleGoogleSignIn}>
+                  <img src="https://www.google.com/favicon.ico" alt="Google" />
+                  Continue with Google
+                </button>
+
+                <div className="divider">
+                  <span>OR</span>
+                </div>
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
                   <input
@@ -125,13 +213,6 @@ const SignUp = () => {
                   />
                 </div>
 
-                <div className="or-divider">or</div>
-
-                <button className="google-btn" onClick={handleGoogleSignIn}>
-                  <img src="https://www.google.com/favicon.ico" alt="Google" />
-                  Continue with Google
-                </button>
-
                 <button
                   className="submit-btn"
                   onClick={handleEmailSignUp}
@@ -139,13 +220,19 @@ const SignUp = () => {
                 >
                   {loading ? "Signing Up..." : "Next"}
                 </button>
+
+                <div className="login-link">
+                  Already have an account? <a href="/login">Login</a>
+                </div>
               </>
             )}
 
             {step === 2 && (
               <>
                 <div className="form-group">
-                  <label htmlFor="name">Full Name</label>
+                  <label htmlFor="name">
+                    Full Name<span className="required">*</span>
+                  </label>
                   <input
                     type="text"
                     id="name"
@@ -154,8 +241,11 @@ const SignUp = () => {
                     onChange={handleChange}
                   />
                 </div>
+
                 <div className="form-group">
-                  <label htmlFor="college">College/University</label>
+                  <label htmlFor="college">
+                    College/University<span className="required">*</span>
+                  </label>
                   <input
                     type="text"
                     id="college"
@@ -167,7 +257,9 @@ const SignUp = () => {
 
                 <div className="address-row">
                   <div className="form-group">
-                    <label htmlFor="city">City</label>
+                    <label htmlFor="city">
+                      City<span className="required">*</span>
+                    </label>
                     <input
                       type="text"
                       id="city"
@@ -176,7 +268,9 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="state">State</label>
+                    <label htmlFor="state">
+                      State<span className="required">*</span>
+                    </label>
                     <input
                       type="text"
                       id="state"
@@ -185,7 +279,9 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="country">Country</label>
+                    <label htmlFor="country">
+                      Country<span className="required">*</span>
+                    </label>
                     <input
                       type="text"
                       id="country"
@@ -247,10 +343,15 @@ const SignUp = () => {
                   />
                   <label htmlFor="agreed">
                     I agree to the <a href="#">Terms & Conditions</a>
+                    <span className="required">*</span>
                   </label>
                 </div>
 
-                <button type="submit" className="submit-btn">
+                <button
+                  type="submit"
+                  className="submit-btn"
+                  onClick={handleSubmit}
+                >
                   Create Account
                 </button>
 

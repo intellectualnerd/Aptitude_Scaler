@@ -1,8 +1,45 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "./supabaseClient"; // make sure you export your supabase client
 import "./login.css";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const navigate = useNavigate();
+
+  // Handle Google Login
+  const handleGoogleLogin = async () => {
+    const { user, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+
+    if (error) {
+      setErrorMsg(error.message);
+    } else {
+      navigate("/");
+    }
+  };
+
+  // Handle email and password login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg("");
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setErrorMsg(error.message);
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <div className="login-container">
@@ -10,11 +47,10 @@ const LoginPage = () => {
         <div className="left-panel">
           <h1>Welcome Back</h1>
           <p>Sign in to access your dashboard</p>
-
           <div className="floating-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24" // << This is the key!
+              viewBox="0 0 24 24"
               width="100%"
               height="100%"
               fill="none"
@@ -28,16 +64,12 @@ const LoginPage = () => {
               <circle cx="12" cy="7" r="4" />
             </svg>
           </div>
-
-          <p className="small-text">
-            Don't have an account? <a className="signup" href="/signup">Sign up</a>
-          </p>
         </div>
 
         <div className="right-panel">
           <h2>Login to your account</h2>
 
-          <button className="google-btn">
+          <button className="google-btn" onClick={handleGoogleLogin}>
             <img src="https://www.google.com/favicon.ico" alt="Google" />
             Continue with Google
           </button>
@@ -46,12 +78,16 @@ const LoginPage = () => {
             <span>OR</span>
           </div>
 
-          <form>
+          <form onSubmit={handleSubmit}>
+            {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+
             <label htmlFor="email">Email Address</label>
             <input
               type="email"
               id="email"
               placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
 
@@ -61,6 +97,8 @@ const LoginPage = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
               <button
@@ -69,14 +107,16 @@ const LoginPage = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 <i
-                  className={`myeye fas ${!showPassword ? "fa-eye-slash" : "fa-eye"}`}
+                  className={`myeye fas ${
+                    !showPassword ? "fa-eye-slash" : "fa-eye"
+                  }`}
                 ></i>
               </button>
             </div>
 
             <div className="checkbox-container small-black">
               <input type="checkbox" id="remember" />
-              <label htmlFor="remember small-text ">Remember me</label>
+              <label htmlFor="remember">Remember me</label>
             </div>
 
             <button className="submit-btn" type="submit">
@@ -84,10 +124,9 @@ const LoginPage = () => {
             </button>
           </form>
 
-          <p className="small-black">
-            By continuing, you agree to our <a href="#">Terms</a> and{" "}
-            <a href="#">Privacy Policy</a>.
-          </p>
+          <div className="login-link">
+            Don't have an account? <a href="/signup">Signup</a>
+          </div>
         </div>
       </div>
     </div>
