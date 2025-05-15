@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "./supabaseClient"; // make sure you export your supabase client
+import { supabase } from "./supabaseClient";
 import "./login.css";
 
 const LoginPage = () => {
@@ -11,18 +11,19 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const handleGoogleLogin= async (e) => {
-      e.preventDefault();
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${import.meta.env.VITE_BASE_URL}/`,
-        },
-      });
-      if (error) setError(error.message);
-    };
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
 
-  // Handle email and password login
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${import.meta.env.VITE_BASE_URL}/oauth-callback`,
+      },
+    });
+
+    if (error) setErrorMsg(error.message);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
@@ -33,9 +34,17 @@ const LoginPage = () => {
     });
 
     if (error) {
-      setErrorMsg(error.message);
+      if (
+        error.message.toLowerCase().includes("invalid login credentials") ||
+        error.message.toLowerCase().includes("user not found")
+      ) {
+        // Redirect to signup if user not found
+        navigate("/signup");
+      } else {
+        setErrorMsg(error.message);
+      }
     } else {
-      window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
+      navigate("/");
     }
   };
 
@@ -102,13 +111,14 @@ const LoginPage = () => {
               <button
                 type="button"
                 className="password-toggle"
+                aria-label="Toggle password visibility"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 <i
                   className={`myeye fas ${
                     !showPassword ? "fa-eye-slash" : "fa-eye"
                   }`}
-                ></i>
+                />
               </button>
             </div>
 

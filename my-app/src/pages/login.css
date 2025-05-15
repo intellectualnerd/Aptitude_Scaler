@@ -3,8 +3,6 @@
 body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-  margin: 0;
-  padding: 0;
 }
 
 .login-container {
