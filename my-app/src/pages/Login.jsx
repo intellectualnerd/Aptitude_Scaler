@@ -11,18 +11,16 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  // Handle Google Login
-  const handleGoogleLogin = async () => {
-    const { user, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-
-    if (error) {
-      setErrorMsg(error.message);
-    } else {
-      window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
-    }
-  };
+  const handleGoogleLogin= async (e) => {
+      e.preventDefault();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${import.meta.env.VITE_BASE_URL}/`,
+        },
+      });
+      if (error) setError(error.message);
+    };
 
   // Handle email and password login
   const handleSubmit = async (e) => {
