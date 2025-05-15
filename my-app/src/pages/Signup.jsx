@@ -60,7 +60,7 @@ const SignUp = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:5173/signup",
+        redirectTo: `${import.meta.env.VITE_BASE_URL}/signup`,
       },
     });
     if (error) setError(error.message);

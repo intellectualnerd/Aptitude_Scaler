@@ -13,7 +13,7 @@ const Home = () => {
       } = await supabase.auth.getSession();
 
       if (!session || !session.user) {
-        navigate("/login");
+        window.location.href = `${import.meta.env.VITE_BASE_URL}/login`;
         return;
       }
 
@@ -36,7 +36,7 @@ const Home = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/login");
+    window.location.href = `${import.meta.env.VITE_BASE_URL}/login`;
   };
 
   if (!profile) return <p>Loading profile...</p>;

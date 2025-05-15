@@ -20,7 +20,7 @@ const LoginPage = () => {
     if (error) {
       setErrorMsg(error.message);
     } else {
-      navigate("/");
+      window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
     }
   };
 
@@ -37,7 +37,7 @@ const LoginPage = () => {
     if (error) {
       setErrorMsg(error.message);
     } else {
-      navigate("/");
+      window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
     }
   };
 
