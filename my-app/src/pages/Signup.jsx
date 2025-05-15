@@ -131,7 +131,7 @@ const SignUp = () => {
       alert("Profile created successfully!");
       // You can redirect or reset the form here
       
-    window.location.href = "http://localhost:5173/";
+    window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
     }
   };
   useEffect(() => {
