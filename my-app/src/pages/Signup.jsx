@@ -135,21 +135,50 @@ const SignUp = () => {
     }
   };
   useEffect(() => {
+    const checkUserProfile = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+  
+      if (userError || !user) {
+        console.error("User not found:", userError?.message);
+        return;
+      }
+  
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", user.id)
+        .single();
+  
+      if (profileError && profileError.code !== "PGRST116") {
+        console.error("Error fetching profile:", profileError.message);
+        return;
+      }
+  
+      if (profile) {
+        // Profile exists; redirect to home
+        window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
+      } else {
+        // No profile found; proceed to Step 2
+        setStep(2);
+      }
+    };
+  
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === "SIGNED_IN") {
-          // ✅ Run your function here after Google sign-in
-          setStep(2);
-          console.log("User signed in", session.user);
-          // Example: fetch user profile, redirect, show message, etc.
+          await checkUserProfile();
         }
       }
     );
-
+  
     return () => {
       listener.subscription.unsubscribe();
     };
   }, []);
+  
   return (
     <div className="signup-container">
       <div className="signup-box">
