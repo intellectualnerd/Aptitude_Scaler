@@ -32,10 +32,10 @@ def fix_encoding_issues(text):
 
 # Define topic-to-ID map
 topic_to_id = {
-    "Data Interpretation": 1,
+    "Arithmetic Aptitude": 1,
     "Logical Reasoning": 2,
-    "Quantitative Aptitude": 3,
-    "Verbal Ability": 4
+    "Verbal Reasoning": 3,
+    "NonVerbal Reasoning": 4
 }
 
 # Input and output file paths
