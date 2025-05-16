@@ -6,7 +6,8 @@ const SignUp = () => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
+    const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -208,7 +209,10 @@ const SignUp = () => {
 
           {error && <p style={{ color: "red" }}>{error}</p>}
 
-          <form onSubmit={step === 2 ? handleSubmit : undefined}>
+          <form
+            onSubmit={step === 2 ? handleSubmit : undefined}
+            className="myform"
+          >
             {step === 1 && (
               <>
                 <button className="google-btn" onClick={handleGoogleSignIn}>
@@ -230,16 +234,27 @@ const SignUp = () => {
                     required
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
+                <div className="password-wrapper">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
                     required
                   />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    aria-label="Toggle password visibility"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    <i
+                      className={`myeye fas ${
+                        !showPassword ? "fa-eye-slash" : "fa-eye"
+                      }`}
+                    />
+                  </button>
                 </div>
 
                 <button

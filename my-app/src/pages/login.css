@@ -23,7 +23,9 @@ body {
   overflow: hidden;
   flex-direction: column;
 }
-
+.myform,.myform input{
+  width: 100% ;
+}
 @media (min-width: 768px) {
   .login-wrapper {
     flex-direction: row;
@@ -62,7 +64,7 @@ body {
 }
 .myeye{
   margin-top: 0;
-  transform: translateY(-50%) translateX(50%)!important;
+  transform: translateY(-50%) translateX(0%)!important;
 }
 
 a {

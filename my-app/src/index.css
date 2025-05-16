@@ -14,9 +14,90 @@ button{
   background-color: #7c3aed;
   color: #ffffff;
 }
+.bg-primary-100 {
+  background-color: #f3e8ff;
+  color: #000000;
+}
+
+.bg-primary-200 {
+  background-color: #e9d5ff;
+  color: #000000;
+}
+
+.bg-primary-300 {
+  background-color: #d8b4fe;
+  color: #000000;
+}
+
+.bg-primary-400 {
+  background-color: #c084fc;
+  color: #000000;
+}
+
+.bg-primary-500 {
+  background-color: #a855f7;
+  color: #ffffff;
+}
+
+.bg-primary-600 {
+  background-color: #9333ea;
+  color: #ffffff;
+}
+
+.bg-primary-700 {
+  background-color: #7e22ce;
+  color: #ffffff;
+}
+
+.bg-primary-800 {
+  background-color: #6b21a8;
+  color: #ffffff;
+}
+
+.bg-primary-900 {
+  background-color: #581c87;
+  color: #ffffff;
+}
+
 .text-primary-600{
   color: #8b5cf6;
 }
+.text-primary-100 {
+  color: #f3e8ff;
+}
+
+.text-primary-200 {
+  color: #e9d5ff;
+}
+
+.text-primary-300 {
+  color: #d8b4fe;
+}
+
+.text-primary-400 {
+  color: #c084fc;
+}
+
+.text-primary-500 {
+  color: #a855f7;
+}
+
+.text-primary-600 {
+  color: #9333ea;
+}
+
+.text-primary-700 {
+  color: #7e22ce;
+}
+
+.text-primary-800 {
+  color: #6b21a8;
+}
+
+.text-primary-900 {
+  color: #581c87;
+}
+
 .hero-gradient {
   background: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%) !important;
 }
@@ -37,6 +118,17 @@ button{
 .btn-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(138, 43, 226, 0.25);
+}
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
 }
 .transition-all {
   transition: all 0.3s ease;

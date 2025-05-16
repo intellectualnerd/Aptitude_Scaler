@@ -5,6 +5,9 @@ body {
   background-color: #f4f0ff;
 }
 
+.myform,.myform input{
+  width: 100% ;
+}
 .signup-container {
   display: flex;
   flex-direction: column;

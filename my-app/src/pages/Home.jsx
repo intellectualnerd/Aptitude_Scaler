@@ -47,31 +47,10 @@ const Home = () => {
       ) : (
         <div className="home-container">
           <h1>Welcome, {profile.name}!</h1>
-          <p>
-            <strong>College:</strong> {profile.college}
-          </p>
-          <p>
-            <strong>City:</strong> {profile.city}
-          </p>
-          <p>
-            <strong>State:</strong> {profile.state}
-          </p>
-          <p>
-            <strong>Country:</strong> {profile.country}
-          </p>
-
-          <div>
-            <h3>Social Links</h3>
-            <p>Twitter: {profile.twitter}</p>
-            <p>Instagram: {profile.instagram}</p>
-            <p>LinkedIn: {profile.linkedin}</p>
-          </div>
+          
         </div>
       )}
-      ;
-      <button onClick={handleLogout} style={{ marginTop: "20px" }}>
-        Logout
-      </button>
+
     </>
   );
 };

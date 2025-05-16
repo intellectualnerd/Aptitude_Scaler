@@ -17,7 +17,7 @@ const LoginPage = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${import.meta.env.VITE_BASE_URL}/oauth-callback`,
+        redirectTo: `${import.meta.env.VITE_BASE_URL}/`,
       },
     });
 
@@ -85,7 +85,7 @@ const LoginPage = () => {
             <span>OR</span>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="myform">
             {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
             <label htmlFor="email">Email Address</label>

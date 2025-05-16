@@ -5,6 +5,7 @@ import Loader from "./components/Loader";
 import LoginPage from "./pages/Login";
 import SignUp from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
+import Profile from "./pages/Profile";
 import "./tailwind.css"; // Make sure Tailwind is set up properly in your project
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -19,6 +20,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
+
+            <Route path="profile" element={<Profile />} />
           </Route>
 
           <Route path="landingpage" element={<LandingPage />} />
