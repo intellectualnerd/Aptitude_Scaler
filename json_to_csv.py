@@ -1,6 +1,6 @@
 import json
 import csv
-import re
+import re 
 
 # Function to fix encoding issues and clean text
 def fix_encoding_issues(text):
