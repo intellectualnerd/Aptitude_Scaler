@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabaseClient"; // adjust path as needed
+import { supabase } from ".../utils/supabaseClient"; // adjust path as needed
 import ProfileCard from "./ProfileCard"; // adjust path
 
 const Profile = () => {

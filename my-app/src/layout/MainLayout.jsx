@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { supabase } from "../../../utils/supabaseClient";
+import { supabase } from "../utils/supabaseClient";
 import "../index.css";
 
 const handleLogout = async () => {
