@@ -10,9 +10,7 @@ const ProfileCard = ({
   const handleChange = (e) => {
     setFormData({
       ...profile,
-      instagram: profile.instagram || "",
-      twitter: profile.twitter || "",
-      linkedin: profile.linkedin || "",
+      [e.target.name]: e.target.value,
     });
       
   };
