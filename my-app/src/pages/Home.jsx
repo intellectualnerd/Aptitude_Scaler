@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from ".../utils/supabaseClient";
+import { supabase } from "../utils/supabaseClient";
 
 const Home = () => {
   const [profile, setProfile] = useState(null);
