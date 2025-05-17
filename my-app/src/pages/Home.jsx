@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "./supabaseClient";
+import { supabase } from "../../../utils/supabaseClient";
 
 const Home = () => {
   const [profile, setProfile] = useState(null);
@@ -47,10 +47,10 @@ const Home = () => {
       ) : (
         <div className="home-container">
           <h1>Welcome, {profile.name}!</h1>
-          
+
         </div>
       )}
-
+      
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { supabase } from "../pages/supabaseClient";
+import { supabase } from "../../../utils/supabaseClient";
 import "../index.css";
 
 const handleLogout = async () => {
@@ -26,7 +26,10 @@ const MainLayout = () => (
           <a href="/#quizzes" className="hover:text-purple-200 transition-all">
             Quizzes
           </a>
-          <a href="/#leaderboard" className="hover:text-purple-200 transition-all">
+          <a
+            href="/#leaderboard"
+            className="hover:text-purple-200 transition-all"
+          >
             Leaderboard
           </a>
 

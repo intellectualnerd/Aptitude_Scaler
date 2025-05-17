@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "../../../utils/supabaseClient";
 import "./signup.css";
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
-    const [showPassword, setShowPassword] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -84,10 +84,10 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-  
+
     setLoading(true);
     setError(null);
-  
+
     const {
       name,
       college,
@@ -98,18 +98,18 @@ const SignUp = () => {
       instagram,
       linkedin,
     } = formData;
-  
+
     const {
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
-  
+
     if (userError || !user) {
       setError("User not found. Please sign in again.");
       setLoading(false);
       return;
     }
-  
+
     const { error: insertError } = await supabase.from("profiles").insert([
       {
         id: user.id,
@@ -123,16 +123,16 @@ const SignUp = () => {
         linkedin,
       },
     ]);
-  
+
     setLoading(false);
-  
+
     if (insertError) {
       setError(insertError.message);
     } else {
       alert("Profile created successfully!");
       // You can redirect or reset the form here
-      
-    window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
+
+      window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
     }
   };
   useEffect(() => {
@@ -141,23 +141,23 @@ const SignUp = () => {
         data: { user },
         error: userError,
       } = await supabase.auth.getUser();
-  
+
       if (userError || !user) {
         console.error("User not found:", userError?.message);
         return;
       }
-  
+
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("id")
         .eq("id", user.id)
         .single();
-  
+
       if (profileError && profileError.code !== "PGRST116") {
         console.error("Error fetching profile:", profileError.message);
         return;
       }
-  
+
       if (profile) {
         // Profile exists; redirect to home
         window.location.href = `${import.meta.env.VITE_BASE_URL}/`;
@@ -166,7 +166,7 @@ const SignUp = () => {
         setStep(2);
       }
     };
-  
+
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === "SIGNED_IN") {
@@ -174,12 +174,12 @@ const SignUp = () => {
         }
       }
     );
-  
+
     return () => {
       listener.subscription.unsubscribe();
     };
   }, []);
-  
+
   return (
     <div className="signup-container">
       <div className="signup-box">
